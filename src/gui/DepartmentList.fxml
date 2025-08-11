@@ -36,7 +36,9 @@
       <TableView fx:id="tableViewDepartment" prefHeight="149.0" prefWidth="679.0">
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="tableColumnName" minWidth="100.0" prefWidth="277.60001373291016" text="Name" />
+          <TableColumn fx:id="tableColumnName" minWidth="100.0" prefWidth="328.8000259399414" text="Name" />
+            <TableColumn fx:id="tableColumnEdit" prefWidth="66.4000244140625" />
+            <TableColumn fx:id="tableColumnRemove" prefWidth="66.39993286132812" />
         </columns>
          <VBox.margin>
             <Insets top="10.0" />

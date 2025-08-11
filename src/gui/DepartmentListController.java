@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableView<Department> tableViewDepartment;
@@ -55,8 +56,9 @@ public class DepartmentListController implements Initializable {
 	public void onBtnNewAction(ActionEvent event) {
 
 		System.out.println("onBtnNewAction");
+		Department obj = new Department();
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/DepartmentForm.fxml", parentStage);
+		createDialogForm(obj, "/gui/DepartmentForm.fxml", parentStage);
 	}
 
 	@Override
@@ -83,10 +85,16 @@ public class DepartmentListController implements Initializable {
 		tableViewDepartment.setItems(obsList);
 	}
 
-	public void createDialogForm(String absoluteName, Stage parentStage) {
+	public void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+
+			DepartmentFormController controller = loader.getController();
+			controller.setEntity(obj);
+			controller.setService(new DepartmentService());
+			controller.subscribeDataChangeListener(this);
+			controller.updateFormData();
 
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("ENTER DEPARTMENT DATA");
@@ -99,6 +107,12 @@ public class DepartmentListController implements Initializable {
 		} catch (IOException e) {
 			Alerts.showAlerts("IOException", "ERROR LOADING VIEW", e.getMessage(), AlertType.WARNING);
 		}
+	}
+
+	@Override
+	public void onDataChanged() {
+		updateTableView();
+
 	}
 
 }

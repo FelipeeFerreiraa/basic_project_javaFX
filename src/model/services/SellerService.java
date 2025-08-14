@@ -16,7 +16,7 @@ public class SellerService {
 		return dao.findAll();
 	}
 
-	void saveOrUpdate(Seller obj) {
+	public void saveOrUpdate(Seller obj) {
 		if (obj.getId() == null) {
 			dao.insert(obj);
 
